@@ -1,9 +1,9 @@
 {
-	"name": "pl-shutdown-azure-ssis-ir-basic",
+	"name": "pl-stop-azure-ssis-ir-basic",
 	"properties": {
 		"activities": [
 			{
-				"name": "Shutdown Azure-SSIS IR",
+				"name": "Stop Azure-SSIS IR",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
