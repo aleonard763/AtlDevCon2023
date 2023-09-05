@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "pl-shutdown-azure-ssis-ir-basic",
+					"referenceName": "pl-stop-azure-ssis-ir-basic",
 					"type": "PipelineReference"
 				}
 			}
