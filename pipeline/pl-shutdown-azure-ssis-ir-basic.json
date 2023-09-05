@@ -1,0 +1,32 @@
+{
+	"name": "pl-shutdown-azure-ssis-ir-basic",
+	"properties": {
+		"activities": [
+			{
+				"name": "Shutdown Azure-SSIS IR",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://management.azure.com/subscriptions/ef3a1634-d332-458d-9cae-bcf71c2d1682/resourcegroups/rgAtlDevCon/providers/Microsoft.DataFactory/factories/dfAtlDevCon/integrationruntimes/azure-ssis/stop?api-version=2018-06-01",
+					"method": "POST",
+					"body": {
+						"message": "Stopping azure-ssis integration runtime"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
