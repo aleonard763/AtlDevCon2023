@@ -1,0 +1,47 @@
+{
+	"name": "pl-execute-generic-load-from-cloud",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Load From Cloud SSIS",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "Test/LoadPersonCloud/LoadPersonGeneric.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "azure-ssis",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic",
+					"packageConnectionManagers": {
+						"target": {
+							"Password": {
+								"value": {
+									"type": "AzureKeyVaultSecret",
+									"store": {
+										"referenceName": "kvParams",
+										"type": "LinkedServiceReference"
+									},
+									"secretName": "personDbPassword"
+								}
+							}
+						}
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
