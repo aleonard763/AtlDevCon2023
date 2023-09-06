@@ -26,7 +26,13 @@
 					},
 					"loggingLevel": "Basic",
 					"packageConnectionManagers": {
-						"target": {
+						"source": {
+							"ConnectionString": {
+								"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbEnvTest;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+							},
+							"InitialCatalog": {
+								"value": "dbEnvTest"
+							},
 							"Password": {
 								"value": {
 									"type": "AzureKeyVaultSecret",
@@ -36,6 +42,33 @@
 									},
 									"secretName": "personDbPassword"
 								}
+							},
+							"ServerName": {
+								"value": "svenvtest.database.windows.net"
+							},
+							"UserName": {
+								"value": "adminandy"
+							}
+						},
+						"target": {
+							"ConnectionString": {
+								"value": "Data Source=svatldevcon.database.windows.net;User ID=adminandy;Initial Catalog=dbatldevcon;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+							},
+							"InitialCatalog": {
+								"value": "dbatldevcon"
+							},
+							"Password": {
+								"value": {
+									"type": "AzureKeyVaultSecret",
+									"store": {
+										"referenceName": "kvParams",
+										"type": "LinkedServiceReference"
+									},
+									"secretName": "personDbPassword"
+								}
+							},
+							"ServerName": {
+								"value": "svatldevcon.database.windows.net"
 							}
 						}
 					}
