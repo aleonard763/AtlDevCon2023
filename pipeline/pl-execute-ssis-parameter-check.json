@@ -1,6 +1,38 @@
 {
 	"name": "pl-execute-ssis-parameter-check",
 	"properties": {
+		"activities": [
+			{
+				"name": "Execute SSIS ParameterCheck",
+				"type": "ExecuteSSISPackage",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"packageLocation": {
+						"packagePath": "Test/LoadPersonCloud/ParameterCheck.dtsx",
+						"type": "SSISDB"
+					},
+					"environmentPath": null,
+					"connectVia": {
+						"referenceName": "azure-ssis",
+						"type": "IntegrationRuntimeReference"
+					},
+					"loggingLevel": "Basic",
+					"packageParameters": {
+						"Int32PackageParameter": {
+							"value": "42"
+						}
+					}
+				}
+			}
+		],
 		"annotations": []
 	}
 }
