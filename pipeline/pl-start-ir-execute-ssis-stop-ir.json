@@ -133,8 +133,6 @@
 			{
 				"name": "Stop Azure-SSIS IR",
 				"type": "WebActivity",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "If azure-ssis ir is running",
