@@ -1,9 +1,9 @@
 {
-	"name": "pl-execute-ssis-parameter-check",
+	"name": "pl-execute-ssis-report-and-succeed",
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute SSIS ParameterCheck",
+				"name": "Execute SSIS ReportAndSucceed",
 				"type": "ExecuteSSISPackage",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"packageLocation": {
-						"packagePath": "Test/TestSSISProject/ParameterCheck.dtsx",
+						"packagePath": "Test/TestSSISProject/ReportAndSucceed.dtsx",
 						"type": "SSISDB"
 					},
 					"environmentPath": null,
@@ -24,12 +24,7 @@
 						"referenceName": "azure-ssis",
 						"type": "IntegrationRuntimeReference"
 					},
-					"loggingLevel": "Basic",
-					"packageParameters": {
-						"Int32PackageParameter": {
-							"value": "42"
-						}
-					}
+					"loggingLevel": "Basic"
 				}
 			}
 		],
