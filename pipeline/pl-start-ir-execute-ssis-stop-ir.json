@@ -69,7 +69,7 @@
 							}
 						},
 						{
-							"name": "Execute Load From Cloud SSIS if IR Not Running",
+							"name": "Execute ReportAndSucceed SSIS if IR Not Running",
 							"type": "ExecuteSSISPackage",
 							"dependsOn": [
 								{
@@ -89,7 +89,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"packageLocation": {
-									"packagePath": "Test/LoadPersonCloud/LoadPersonGeneric.dtsx",
+									"packagePath": "Test/TestSSISProject/ReportAndSucceed.dtsx",
 									"type": "SSISDB"
 								},
 								"environmentPath": null,
@@ -97,60 +97,13 @@
 									"referenceName": "azure-ssis",
 									"type": "IntegrationRuntimeReference"
 								},
-								"loggingLevel": "Basic",
-								"packageConnectionManagers": {
-									"source": {
-										"ConnectionString": {
-											"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbEnvTest;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
-										},
-										"InitialCatalog": {
-											"value": "dbEnvTest"
-										},
-										"Password": {
-											"value": {
-												"type": "AzureKeyVaultSecret",
-												"store": {
-													"referenceName": "kvParams",
-													"type": "LinkedServiceReference"
-												},
-												"secretName": "personDbPassword"
-											}
-										},
-										"ServerName": {
-											"value": "svenvtest.database.windows.net"
-										},
-										"UserName": {
-											"value": "adminandy"
-										}
-									},
-									"target": {
-										"ConnectionString": {
-											"value": "Data Source=svatldevcon.database.windows.net;User ID=adminandy;Initial Catalog=dbatldevcon;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
-										},
-										"InitialCatalog": {
-											"value": "dbatldevcon"
-										},
-										"Password": {
-											"value": {
-												"type": "AzureKeyVaultSecret",
-												"store": {
-													"referenceName": "kvParams",
-													"type": "LinkedServiceReference"
-												},
-												"secretName": "personDbPassword"
-											}
-										},
-										"ServerName": {
-											"value": "svatldevcon.database.windows.net"
-										}
-									}
-								}
+								"loggingLevel": "Basic"
 							}
 						}
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Execute Load From Cloud SSIS if IR Running",
+							"name": "Execute ReportAndSucceed SSIS if IR Running",
 							"type": "ExecuteSSISPackage",
 							"dependsOn": [],
 							"policy": {
@@ -163,7 +116,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"packageLocation": {
-									"packagePath": "Test/LoadPersonCloud/LoadPersonGeneric.dtsx",
+									"packagePath": "Test/TestSSISProject/ReportAndSucceed.dtsx",
 									"type": "SSISDB"
 								},
 								"environmentPath": null,
@@ -171,54 +124,7 @@
 									"referenceName": "azure-ssis",
 									"type": "IntegrationRuntimeReference"
 								},
-								"loggingLevel": "Basic",
-								"packageConnectionManagers": {
-									"source": {
-										"ConnectionString": {
-											"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbEnvTest;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
-										},
-										"InitialCatalog": {
-											"value": "dbEnvTest"
-										},
-										"Password": {
-											"value": {
-												"type": "AzureKeyVaultSecret",
-												"store": {
-													"referenceName": "kvParams",
-													"type": "LinkedServiceReference"
-												},
-												"secretName": "personDbPassword"
-											}
-										},
-										"ServerName": {
-											"value": "svenvtest.database.windows.net"
-										},
-										"UserName": {
-											"value": "adminandy"
-										}
-									},
-									"target": {
-										"ConnectionString": {
-											"value": "Data Source=svatldevcon.database.windows.net;User ID=adminandy;Initial Catalog=dbatldevcon;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
-										},
-										"InitialCatalog": {
-											"value": "dbatldevcon"
-										},
-										"Password": {
-											"value": {
-												"type": "AzureKeyVaultSecret",
-												"store": {
-													"referenceName": "kvParams",
-													"type": "LinkedServiceReference"
-												},
-												"secretName": "personDbPassword"
-											}
-										},
-										"ServerName": {
-											"value": "svatldevcon.database.windows.net"
-										}
-									}
-								}
+								"loggingLevel": "Basic"
 							}
 						}
 					]
