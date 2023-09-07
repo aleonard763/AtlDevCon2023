@@ -1,0 +1,261 @@
+{
+	"name": "pl-start-ir-execute-ssis-stop-ir",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get azure-ssis ir state",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://management.azure.com/subscriptions/ef3a1634-d332-458d-9cae-bcf71c2d1682/resourceGroups/rgAtlDevCon/providers/Microsoft.DataFactory/factories/dfAtlDevCon/integrationRuntimes/azure-ssis/getStatus?api-version=2018-06-01",
+					"method": "POST",
+					"body": {
+						"message": "Getting azure-ssis integration runtime status"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
+				}
+			},
+			{
+				"name": "If azure-ssis ir is running",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get azure-ssis ir state",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(activity('Get azure-ssis ir state').output.properties.state,'Started')",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Start Azure-SSIS IR if Not Running",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"url": "https://management.azure.com/subscriptions/ef3a1634-d332-458d-9cae-bcf71c2d1682/resourcegroups/rgAtlDevCon/providers/Microsoft.DataFactory/factories/dfAtlDevCon/integrationruntimes/azure-ssis/start?api-version=2018-06-01",
+								"method": "POST",
+								"body": {
+									"message": "Starting azure-ssis integration runtime"
+								},
+								"authentication": {
+									"type": "MSI",
+									"resource": "https://management.azure.com"
+								}
+							}
+						},
+						{
+							"name": "Execute Load From Cloud SSIS if IR Not Running",
+							"type": "ExecuteSSISPackage",
+							"dependsOn": [
+								{
+									"activity": "Start Azure-SSIS IR if Not Running",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"packageLocation": {
+									"packagePath": "Test/LoadPersonCloud/LoadPersonGeneric.dtsx",
+									"type": "SSISDB"
+								},
+								"environmentPath": null,
+								"connectVia": {
+									"referenceName": "azure-ssis",
+									"type": "IntegrationRuntimeReference"
+								},
+								"loggingLevel": "Basic",
+								"packageConnectionManagers": {
+									"source": {
+										"ConnectionString": {
+											"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbEnvTest;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+										},
+										"InitialCatalog": {
+											"value": "dbEnvTest"
+										},
+										"Password": {
+											"value": {
+												"type": "AzureKeyVaultSecret",
+												"store": {
+													"referenceName": "kvParams",
+													"type": "LinkedServiceReference"
+												},
+												"secretName": "personDbPassword"
+											}
+										},
+										"ServerName": {
+											"value": "svenvtest.database.windows.net"
+										},
+										"UserName": {
+											"value": "adminandy"
+										}
+									},
+									"target": {
+										"ConnectionString": {
+											"value": "Data Source=svatldevcon.database.windows.net;User ID=adminandy;Initial Catalog=dbatldevcon;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+										},
+										"InitialCatalog": {
+											"value": "dbatldevcon"
+										},
+										"Password": {
+											"value": {
+												"type": "AzureKeyVaultSecret",
+												"store": {
+													"referenceName": "kvParams",
+													"type": "LinkedServiceReference"
+												},
+												"secretName": "personDbPassword"
+											}
+										},
+										"ServerName": {
+											"value": "svatldevcon.database.windows.net"
+										}
+									}
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Execute Load From Cloud SSIS if IR Running",
+							"type": "ExecuteSSISPackage",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"packageLocation": {
+									"packagePath": "Test/LoadPersonCloud/LoadPersonGeneric.dtsx",
+									"type": "SSISDB"
+								},
+								"environmentPath": null,
+								"connectVia": {
+									"referenceName": "azure-ssis",
+									"type": "IntegrationRuntimeReference"
+								},
+								"loggingLevel": "Basic",
+								"packageConnectionManagers": {
+									"source": {
+										"ConnectionString": {
+											"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbEnvTest;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+										},
+										"InitialCatalog": {
+											"value": "dbEnvTest"
+										},
+										"Password": {
+											"value": {
+												"type": "AzureKeyVaultSecret",
+												"store": {
+													"referenceName": "kvParams",
+													"type": "LinkedServiceReference"
+												},
+												"secretName": "personDbPassword"
+											}
+										},
+										"ServerName": {
+											"value": "svenvtest.database.windows.net"
+										},
+										"UserName": {
+											"value": "adminandy"
+										}
+									},
+									"target": {
+										"ConnectionString": {
+											"value": "Data Source=svatldevcon.database.windows.net;User ID=adminandy;Initial Catalog=dbatldevcon;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+										},
+										"InitialCatalog": {
+											"value": "dbatldevcon"
+										},
+										"Password": {
+											"value": {
+												"type": "AzureKeyVaultSecret",
+												"store": {
+													"referenceName": "kvParams",
+													"type": "LinkedServiceReference"
+												},
+												"secretName": "personDbPassword"
+											}
+										},
+										"ServerName": {
+											"value": "svatldevcon.database.windows.net"
+										}
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Stop Azure-SSIS IR",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "If azure-ssis ir is running",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://management.azure.com/subscriptions/ef3a1634-d332-458d-9cae-bcf71c2d1682/resourcegroups/rgAtlDevCon/providers/Microsoft.DataFactory/factories/dfAtlDevCon/integrationruntimes/azure-ssis/stop?api-version=2018-06-01",
+					"method": "POST",
+					"body": {
+						"message": "Stopping azure-ssis integration runtime"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://management.azure.com"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
