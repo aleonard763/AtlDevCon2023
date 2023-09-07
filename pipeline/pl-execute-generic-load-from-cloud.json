@@ -25,10 +25,15 @@
 						"type": "IntegrationRuntimeReference"
 					},
 					"loggingLevel": "Basic",
+					"packageParameters": {
+						"sourceSelectSchemaTable": {
+							"value": "dbo.Person"
+						}
+					},
 					"packageConnectionManagers": {
 						"source": {
 							"ConnectionString": {
-								"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbEnvTest;Provider=SQLNCLI11.1Auto Translate=False;;Application Name=pl-execute-generic-load-from-cloud"
+								"value": "Data Source=svenvtest.database.windows.net;User ID=adminandy;Initial Catalog=dbatldevcon;Provider=SQLNCLI11.1;Auto Translate=False;"
 							},
 							"InitialCatalog": {
 								"value": "dbEnvTest"
